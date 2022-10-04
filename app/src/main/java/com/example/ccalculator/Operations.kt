@@ -9,16 +9,16 @@ enum class Operations (val raw: Char) {
     companion object {
         fun calculate(operandOne: Double, operandTwo: Double, operation: Operations) : Double {
             return when(operation) {
-                Operations.ADD -> (operandOne + operandTwo)
-                Operations.SUBTRACT -> (operandOne - operandTwo)
-                Operations.MULTIPLY -> (operandOne * operandTwo)
-                Operations.DIVIDE -> (operandOne / operandTwo)
+                ADD -> (operandOne + operandTwo)
+                SUBTRACT -> (operandOne - operandTwo)
+                MULTIPLY -> (operandOne * operandTwo)
+                DIVIDE -> (operandOne / operandTwo)
             }
         }
 
         fun getOperationsArray() : Array<Char> {
             val operationsArray = mutableListOf<Char>()
-            Operations.values().forEach {
+            values().forEach {
                 operationsArray.add(it.raw)
             }
             return operationsArray.toTypedArray()
@@ -27,6 +27,24 @@ enum class Operations (val raw: Char) {
         fun getList(): List<Char> {
             return values().map { it.raw }
         }
+
+        fun getOperation(operation: String) : Operations {
+            return when(operation) {
+                "+" -> ADD
+                "-" -> SUBTRACT
+                "*" -> MULTIPLY
+                "/" -> DIVIDE
+                else -> ADD
+            }
+        }
+
+        fun getOperationPriority(operation: Operations) : Int {
+            return when(operation) {
+                ADD, SUBTRACT -> 1
+                MULTIPLY, DIVIDE -> 2
+            }
+        }
+
     }
 }
 

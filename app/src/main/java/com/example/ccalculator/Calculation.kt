@@ -4,20 +4,57 @@ class Calculation {
 
     companion object {
         fun calculateResult(input: String) : String {
-            var result = ""
-
+            var result: Double = 0.0
 
             if (!isInputSequenceValid(input)) {
                 println(INVALID_INPUT + input)
                 return INVALID_INPUT
             }
 
-            var operands = input.split("+", "-", "*", "/")
-            val operations = input.filter { Operations.getList().contains(it) }
+            val addAndSubstractOperands = mutableListOf<Double>()
+            val addAndSubstractOperations = mutableListOf<Operations>()
+
+            val operands = input.split("+", "-", "*", "/").map { it.toDouble() }.toMutableList()
+            val operations = input.filter { Operations.getList().contains(it) }.map { Operations.getOperation(it.toString()) }
             println("Operands = " + operands)
             println("Operations = " + operations)
 
-            return result
+            for (i in 0 until operations.count()) {
+                val operation = operations[i]
+                val operandOne = operands[i]
+                val operandTwo = operands[i+1]
+
+                if (Operations.getOperationPriority(operation) == 1) {
+                    addAndSubstractOperands.add(operandOne)
+                    addAndSubstractOperations.add(operation)
+                } else {
+                    result = Operations.calculate(
+                        operandOne,
+                        operandTwo,
+                        operation
+                    )
+                    operands[i + 1] = result
+                    println("temp result = " + result)
+                }
+            }
+
+            addAndSubstractOperands.add(operands.last())
+
+            for (i in 0 until addAndSubstractOperations.count()) {
+                val operation = addAndSubstractOperations[i]
+                val operandOne = addAndSubstractOperands[i]
+                val operandTwo = addAndSubstractOperands[i+1]
+
+                result = Operations.calculate(
+                    operandOne,
+                    operandTwo,
+                    operation
+                )
+                addAndSubstractOperands[i+1] = result
+            }
+
+            println("result = " + result)
+            return result.toString()
         }
 
         private fun isInputSequenceValid(sequence: String) : Boolean {
@@ -50,7 +87,6 @@ class Calculation {
         }
 
         private fun isCurrentCharAnOperation(c: Char) : Boolean = Operations.getList().contains(c)
-//        return Operations.getOperationsArray().contains(c)
 
         private fun isCurrentCharAPoint(c: Char) : Boolean = (c == '.')
 
