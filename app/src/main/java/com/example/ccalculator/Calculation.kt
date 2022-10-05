@@ -11,11 +11,11 @@ class Calculation {
                 return INVALID_INPUT
             }
 
-            val addAndSubstractOperands = mutableListOf<Double>()
-            val addAndSubstractOperations = mutableListOf<Operations>()
+            val addAndSubtractOperands = mutableListOf<Double>()
+            val addAndSubtractOperations = mutableListOf<Operations>()
 
             val operands = input.split("+", "-", "*", "/").map { it.toDouble() }.toMutableList()
-            val operations = input.filter { Operations.getList().contains(it) }.map { Operations.getOperation(it.toString()) }
+            val operations = input.filter { Operations.getOperationsList().contains(it) }.map { Operations.getOperation(it.toString()) }
             println("Operands = " + operands)
             println("Operations = " + operations)
 
@@ -25,8 +25,8 @@ class Calculation {
                 val operandTwo = operands[i+1]
 
                 if (Operations.getOperationPriority(operation) == 1) {
-                    addAndSubstractOperands.add(operandOne)
-                    addAndSubstractOperations.add(operation)
+                    addAndSubtractOperands.add(operandOne)
+                    addAndSubtractOperations.add(operation)
                 } else {
                     result = Operations.calculate(
                         operandOne,
@@ -38,19 +38,19 @@ class Calculation {
                 }
             }
 
-            addAndSubstractOperands.add(operands.last())
+            addAndSubtractOperands.add(operands.last())
 
-            for (i in 0 until addAndSubstractOperations.count()) {
-                val operation = addAndSubstractOperations[i]
-                val operandOne = addAndSubstractOperands[i]
-                val operandTwo = addAndSubstractOperands[i+1]
+            for (i in 0 until addAndSubtractOperations.count()) {
+                val operation = addAndSubtractOperations[i]
+                val operandOne = addAndSubtractOperands[i]
+                val operandTwo = addAndSubtractOperands[i+1]
 
                 result = Operations.calculate(
                     operandOne,
                     operandTwo,
                     operation
                 )
-                addAndSubstractOperands[i+1] = result
+                addAndSubtractOperands[i+1] = result
             }
 
             println("result = " + result)
@@ -86,7 +86,7 @@ class Calculation {
             return true
         }
 
-        private fun isCurrentCharAnOperation(c: Char) : Boolean = Operations.getList().contains(c)
+        private fun isCurrentCharAnOperation(c: Char) : Boolean = Operations.getOperationsList().contains(c)
 
         private fun isCurrentCharAPoint(c: Char) : Boolean = (c == '.')
 

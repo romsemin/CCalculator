@@ -44,7 +44,7 @@ class CCMAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 //
 //        return CCMAdapterViewHolder(view)
     }
-    
+
     override fun getItemViewType(position: Int): Int {
         return when(adapterData[position]) {
             is DataModel.ButtonsRow -> TYPE_BUTTONS

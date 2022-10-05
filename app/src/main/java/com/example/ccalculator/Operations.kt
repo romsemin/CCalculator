@@ -16,17 +16,7 @@ enum class Operations (val raw: Char) {
             }
         }
 
-        fun getOperationsArray() : Array<Char> {
-            val operationsArray = mutableListOf<Char>()
-            values().forEach {
-                operationsArray.add(it.raw)
-            }
-            return operationsArray.toTypedArray()
-        }
-
-        fun getList(): List<Char> {
-            return values().map { it.raw }
-        }
+        fun getOperationsList(): List<Char> = values().map { it.raw }
 
         fun getOperation(operation: String) : Operations {
             return when(operation) {
