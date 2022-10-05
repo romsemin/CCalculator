@@ -1,5 +1,7 @@
 package com.example.ccalculator
 
+import java.io.IOException
+
 enum class Operations (val raw: Char) {
     ADD('+'),
     SUBTRACT('-'),
@@ -7,16 +9,23 @@ enum class Operations (val raw: Char) {
     DIVIDE('/');
 
     companion object {
+
+        @Throws(CalculationThrowable::class)
         fun calculate(operandOne: Double, operandTwo: Double, operation: Operations) : Double {
-            return when(operation) {
-                ADD -> (operandOne + operandTwo)
-                SUBTRACT -> (operandOne - operandTwo)
-                MULTIPLY -> (operandOne * operandTwo)
-                DIVIDE -> (operandOne / operandTwo)
+            if (operation == DIVIDE && operandTwo == 0.0) {
+                throw CalculationThrowable(
+                    CalculationError.DIVISION_BY_ZERO,
+                    DIVISION_BY_ZERO
+                )
+            } else {
+                return when (operation) {
+                    ADD -> (operandOne + operandTwo)
+                    SUBTRACT -> (operandOne - operandTwo)
+                    MULTIPLY -> (operandOne * operandTwo)
+                    DIVIDE -> (operandOne / operandTwo)
+                }
             }
         }
-
-        fun getOperationsList(): List<Char> = values().map { it.raw }
 
         fun getOperation(operation: String) : Operations {
             return when(operation) {
@@ -28,6 +37,8 @@ enum class Operations (val raw: Char) {
             }
         }
 
+        fun getOperationsList(): List<Char> = values().map { it.raw }
+
         fun getOperationPriority(operation: Operations) : Int {
             return when(operation) {
                 ADD, SUBTRACT -> 1
@@ -35,6 +46,7 @@ enum class Operations (val raw: Char) {
             }
         }
 
+        private const val DIVISION_BY_ZERO = "Error! Division by zero!"
     }
 }
 
