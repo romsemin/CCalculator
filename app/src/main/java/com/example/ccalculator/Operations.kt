@@ -1,7 +1,5 @@
 package com.example.ccalculator
 
-import java.io.IOException
-
 enum class Operations (val raw: Char) {
     ADD('+'),
     SUBTRACT('-'),

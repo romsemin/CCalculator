@@ -8,7 +8,7 @@ import com.example.ccalculator.databinding.RvItemBinding
 import com.example.ccalculator.databinding.RvTextViewBinding
 
 
-class CCMAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CCMAdapter(val onClick: ((String) -> Unit)?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val adapterData = mutableListOf<DataModel>()
     var adapterText: String = ""
 
@@ -31,18 +31,6 @@ class CCMAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             )
             TextViewHolder(binding)
         }
-
-//        val layout = when (viewType) {
-//            TYPE_BUTTONS -> R.layout.rv_item
-//            TYPE_EDIT_TEXT -> R.layout.rv_edit_text
-//            else -> throw java.lang.IllegalArgumentException("Invalid type")
-//        }
-//
-//        val view = LayoutInflater
-//            .from(parent.context)
-//            .inflate(layout, parent, false)
-//
-//        return CCMAdapterViewHolder(view)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -77,30 +65,6 @@ class CCMAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-//    inner class CCMAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        private fun bindButtons(item: DataModel.ButtonsRow) {
-//            itemView.findViewById<AppCompatButton>(R.id.rw_row_first_button).text = item.firstButton
-//            itemView.findViewById<AppCompatButton>(R.id.rw_row_second_button).text =
-//                item.secondButton
-//            itemView.findViewById<AppCompatButton>(R.id.rw_row_third_button).text = item.thirdButton
-//            itemView.findViewById<AppCompatButton>(R.id.rw_row_fourth_button).text =
-//                item.fourthButton
-//        }
-//
-//        private fun bindEditTextView(item: DataModel.TextView) {
-//            itemView.findViewById<AppCompatEditText>(R.id.rw_edit_text).setText(
-//                itemView.findViewById<AppCompatEditText>(R.id.rw_edit_text).text.toString() + item.text.toString())
-//        }
-//
-//        fun bind(dataModel: DataModel) {
-//            when (dataModel) {
-//                is DataModel.ButtonsRow -> bindButtons(dataModel)
-//                is DataModel.TextView -> bindEditTextView(dataModel)
-//                else -> {}
-//            }
-//        }
-//    }
-
     inner class ButtonsViewHolder(
         private val binding: RvItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -132,28 +96,34 @@ class CCMAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             binding.rwRowFirstButton.setOnClickListener {
                 when (rvItem.firstButton ) {
-                    "AC" -> adapterText = ""
-                    else -> adapterText += rvItem.firstButton
+                    "AC" -> {
+                        adapterText = ""
+                        onClick?.let { text -> text(adapterText) }
+                    } else -> {
+                        adapterText += rvItem.firstButton
+                        onClick?.let { text -> text(adapterText) }
+                    }
                 }
-                println(adapterText)
             }
 
             binding.rwRowSecondButton.setOnClickListener {
                 adapterText += rvItem.secondButton
+                onClick?.let { text -> text(adapterText) }
             }
 
             binding.rwRowThirdButton.setOnClickListener {
                 adapterText += rvItem.thirdButton
+                onClick?.let { text -> text(adapterText) }
             }
 
             binding.rwRowFourthButton.setOnClickListener {
                 if (rvItem.fourthButton == "=") {
-                    Calculation.calculateResult(adapterText)
+                    onClick?.let { text -> text(Calculation.calculateResult(adapterText)) }
                     adapterText = ""
                 } else {
                     adapterText += rvItem.fourthButton
+                    onClick?.let { text -> text(adapterText) }
                 }
-                println(adapterText)
             }
         }
     }

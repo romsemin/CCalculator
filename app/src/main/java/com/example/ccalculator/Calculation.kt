@@ -3,8 +3,9 @@ package com.example.ccalculator
 class Calculation {
 
     companion object {
+
         fun calculateResult(input: String) : String {
-            var result: Double = 0.0
+            var result = 0.0
 
             if (!isInputSequenceValid(input)) {
                 return INVALID_INPUT
@@ -35,7 +36,6 @@ class Calculation {
                         return e.errorMessage.toString()
                     }
                     operands[i + 1] = result
-                    println("temp result = " + result)
                 }
             }
 
@@ -53,16 +53,18 @@ class Calculation {
                 )
                 addAndSubtractOperands[i+1] = result
             }
-
-            println("result = " + result)
-            return result.toString()
+            return ("$input = $result")
         }
 
         private fun isInputSequenceValid(sequence: String) : Boolean {
             val sequenceArray = sequence.toCharArray()
-            println(sequenceArray)
             var isCharAnOperation = false
             var isCharAPoint = false
+
+            if (isCurrentCharAPoint(sequence.first()) || isCurrentCharAnOperation(sequence.first())
+                || isCurrentCharAPoint(sequence.last()) || isCurrentCharAnOperation(sequence.last())) {
+                return false
+            }
 
             for (c in sequenceArray) {
                 if (isCurrentCharAPoint(c)) {
