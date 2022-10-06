@@ -72,16 +72,14 @@ class Calculation {
                         return false
                     } else {
                         isCharAPoint = true
-                        isCharAnOperation = false
                     }
                 } else if (isCurrentCharAnOperation(c)) {
                     if (isCharAnOperation) {
                         return false
                     } else {
                         isCharAnOperation = true
-                        isCharAPoint = false
                     }
-                } else {
+                } else if (c.isDigit()) {
                     isCharAPoint = false
                     isCharAnOperation = false
                 }
