@@ -1,2 +1,2 @@
-# CCalculator
+# Calculator
 custom android calculator
