@@ -9,7 +9,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/calculator_fragment"
-        android:name="com.example.ccalculator.CCFragment"
+        android:name="com.example.ccalculator.CalculatorFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

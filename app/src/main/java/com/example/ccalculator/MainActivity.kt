@@ -2,6 +2,8 @@ package com.example.ccalculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.ccalculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

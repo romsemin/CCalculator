@@ -1,6 +1,6 @@
 package com.example.ccalculator
 
-enum class Operations (val raw: Char) {
+enum class Operations(val raw: Char) {
     ADD('+'),
     SUBTRACT('-'),
     MULTIPLY('*'),
@@ -9,36 +9,39 @@ enum class Operations (val raw: Char) {
     companion object {
 
         @Throws(CalculationThrowable::class)
-        fun calculate(operandOne: Double, operandTwo: Double, operation: Operations) : Double {
-            if (operation == DIVIDE && operandTwo == 0.0) {
+        fun Operations.calculate(operandOne: Double,
+                      operandTwo: Double,
+        ) : Double {
+            if (this == DIVIDE && operandTwo == 0.0) {
                 throw CalculationThrowable(
                     CalculationError.DIVISION_BY_ZERO,
                     DIVISION_BY_ZERO
                 )
             } else {
-                return when (operation) {
-                    ADD -> (operandOne + operandTwo)
-                    SUBTRACT -> (operandOne - operandTwo)
-                    MULTIPLY -> (operandOne * operandTwo)
-                    DIVIDE -> (operandOne / operandTwo)
+                return when (this) {
+                    ADD -> (operandOne.plus(operandTwo))
+                    SUBTRACT -> (operandOne.minus(operandTwo))
+                    MULTIPLY -> (operandOne.times(operandTwo))
+                    DIVIDE -> (operandOne.div(operandTwo))
                 }
             }
         }
 
-        fun getOperation(operation: String) : Operations {
-            return when(operation) {
+        @Throws(CalculationThrowable::class)
+        fun String.getOperation() : Operations {
+            return when(this) {
                 "+" -> ADD
                 "-" -> SUBTRACT
-                "*" -> MULTIPLY
+                "*"-> MULTIPLY
                 "/" -> DIVIDE
-                else -> ADD
+                else -> throw CalculationThrowable(CalculationError.UNKNOWN_OPERATION)
             }
         }
 
-        fun getOperationsList(): List<Char> = values().map { it.raw }
+        fun getOperationsCharList(): List<Char> = values().map { it.raw }
 
-        fun getOperationPriority(operation: Operations) : Int {
-            return when(operation) {
+        fun Operations.getOperationPriority() : Int {
+            return when(this) {
                 ADD, SUBTRACT -> 1
                 MULTIPLY, DIVIDE -> 2
             }
