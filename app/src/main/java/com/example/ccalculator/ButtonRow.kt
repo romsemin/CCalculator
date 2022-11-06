@@ -1,6 +1,6 @@
 package com.example.ccalculator
 
-data class ButtonsRowDataModel(
+data class ButtonRow(
     val firstButton: String,
     val secondButton: String?,
     val thirdButton: String?,

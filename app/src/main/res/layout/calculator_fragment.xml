@@ -8,17 +8,19 @@
     tools:context=".CalculatorFragment">
 
     <TextView
-        android:id="@+id/result_text_view"
+        android:id="@+id/result_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        app:layout_constraintBottom_toTopOf="@id/fragment_recycler_view"
+        app:layout_constraintBottom_toTopOf="@id/calculator_recycler_view"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_recycler_view"
+        android:id="@+id/calculator_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        tools:listitem="@layout/button_row_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent" />

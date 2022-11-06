@@ -14,8 +14,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
     <Button
-        android:id="@+id/rw_row_first_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/first_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:textStyle="bold"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/rw_row_second_button"
+        android:id="@+id/second_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -33,10 +33,10 @@
         android:backgroundTint="@color/dark_gray"
         android:layout_marginStart="@dimen/button_horizontal_margin"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rw_row_first_button" />
+        app:layout_constraintStart_toEndOf="@id/first_button" />
 
     <Button
-        android:id="@+id/rw_row_third_button"
+        android:id="@+id/third_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -44,10 +44,10 @@
         android:backgroundTint="@color/dark_gray"
         android:layout_marginStart="@dimen/button_horizontal_margin"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rw_row_second_button" />
+        app:layout_constraintStart_toEndOf="@id/second_button" />
 
     <Button
-        android:id="@+id/rw_row_fourth_button"
+        android:id="@+id/fourth_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -55,7 +55,7 @@
         android:backgroundTint="@color/orange"
         android:layout_marginStart="@dimen/button_horizontal_margin"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rw_row_third_button"
+        app:layout_constraintStart_toEndOf="@id/third_button"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     </LinearLayout>

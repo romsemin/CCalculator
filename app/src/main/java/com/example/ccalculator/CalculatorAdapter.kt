@@ -4,20 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ccalculator.databinding.CalculatorButtonsRowItemBinding
+import com.example.ccalculator.databinding.ButtonRowItemBinding
 
 class CalculatorAdapter(
-    val onClick: ((String) -> Unit)?
+    val onClick: ((String) -> Unit)
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val adapterData = mutableListOf<ButtonsRowDataModel>()
-    var adapterInputText: String = ""
+    private var buttonsList: MutableList<ButtonRow> = mutableListOf()
+    var input: String = ""
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder {
-        val binding = CalculatorButtonsRowItemBinding.inflate(
+        val binding = ButtonRowItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -29,65 +29,69 @@ class CalculatorAdapter(
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
-        val buttonsViewHolder = holder as ButtonsViewHolder
-        val buttonsItem = adapterData[position] as ButtonsRowDataModel
-        buttonsViewHolder.bind(buttonsItem)
-        return
+        val buttonsHolder = holder as ButtonsViewHolder
+        val item = buttonsList[position]
+        buttonsHolder.bind(item)
     }
 
-    override fun getItemCount(): Int = adapterData.size
+    override fun getItemCount(): Int = buttonsList.size
 
-    fun setData(data: List<ButtonsRowDataModel>) {
-        adapterData.clear()
-        adapterData.addAll(data)
+    fun setButtons(buttons: MutableList<ButtonRow>) {
+        buttonsList.clear()
+        buttonsList.addAll(buttons)
         notifyDataSetChanged()
     }
 
     inner class ButtonsViewHolder(
-        private val binding: CalculatorButtonsRowItemBinding
+        private val binding: ButtonRowItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(rvItem: ButtonsRowDataModel) {
-            binding.rwRowFirstButton.text = rvItem.firstButton
-            binding.rwRowSecondButton.text = rvItem.secondButton
-            binding.rwRowThirdButton.text = rvItem.thirdButton
-            binding.rwRowFourthButton.text = rvItem.fourthButton
+        fun bind(row: ButtonRow) {
+            binding.firstButton.text = row.firstButton
+            binding.secondButton.text = row.secondButton
+            binding.thirdButton.text = row.thirdButton
+            binding.fourthButton.text = row.fourthButton
 
-            if (rvItem.secondButton == null) {
-                binding.rwRowSecondButton.visibility = View.GONE
+            if (row.secondButton == null) {
+                binding.secondButton.visibility = View.GONE
             }
 
-            if (rvItem.thirdButton == null) {
-                binding.rwRowThirdButton.visibility = View.GONE
+            if (row.thirdButton == null) {
+                binding.thirdButton.visibility = View.GONE
             }
 
-            binding.rwRowFirstButton.setOnClickListener {
-                if (rvItem.firstButton == "AC" ) {
-                    adapterInputText = ""
-                    onClick?.let { it(adapterInputText) }
-                } else {
-                    adapterInputText = adapterInputText.plus(rvItem.firstButton)
-                    onClick?.let { it(adapterInputText) }
+            binding.firstButton.setOnClickListener {
+                when (row.firstButton) {
+                    "AC" -> {
+                        input = ""
+                        onClick(input)
+                    }
+                    else -> {
+                        input = input.plus(row.firstButton)
+                        onClick(input)
+                    }
                 }
             }
 
-
-            binding.rwRowSecondButton.setOnClickListener {
-                adapterInputText = adapterInputText.plus(rvItem.secondButton)
-                onClick?.let { it(adapterInputText) }
+            binding.secondButton.setOnClickListener {
+                input = input.plus(row.secondButton)
+                onClick(input)
             }
 
-            binding.rwRowThirdButton.setOnClickListener {
-                adapterInputText = adapterInputText.plus(rvItem.thirdButton)
-                onClick?.let { it(adapterInputText) }
+            binding.thirdButton.setOnClickListener {
+                input = input.plus(row.thirdButton)
+                onClick(input)
             }
 
-            binding.rwRowFourthButton.setOnClickListener {
-                if (rvItem.fourthButton == "=") {
-                    onClick?.let { it(Calculation.calculateResult(adapterInputText)) }
-                    adapterInputText = ""
-                } else {
-                    adapterInputText = adapterInputText.plus(rvItem.fourthButton)
-                    onClick?.let { it(adapterInputText) }
+            binding.fourthButton.setOnClickListener {
+                when (row.fourthButton) {
+                    "=" -> {
+                        onClick(Calculation.calculateResult(input))
+                        input = ""
+                    }
+                    else -> {
+                        input = input.plus(row.fourthButton)
+                        onClick(input)
+                    }
                 }
             }
         }
